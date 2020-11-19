@@ -16,7 +16,9 @@ routes.post("/user/register", UserController.createUser)
 routes.get("/user/:userId",UserController.getUserById)
   //Event
 routes.get('/event/:eventId',EventController.getEventById)
-
+routes.get('/events',EventController.getAllEvents)
+routes.get('/events/:sport',EventController.getEventsBySport)
 routes.post('/event',upload.single("thumbnail"), EventController.createEvent)
+routes.delete('/event/:eventId',EventController.deleteEvent)
 
 module.exports = routes
