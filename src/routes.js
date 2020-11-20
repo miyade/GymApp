@@ -6,6 +6,8 @@ const EventController = require('./Controllers/EventController')
 const DashboardController = require('./Controllers/DashboardController')
 const LoginController = require('./Controllers/LoginController')
 const SubscriptionController = require('./Controllers/SubscriptionController')
+const ApprovalController = require('./Controllers/ApprovalController')
+const RejectionController = require('./Controllers/RejectionController')
 const uploadConfig = require('./config/upload');
 const routes = express.Router();
 const upload = multer(uploadConfig);
@@ -13,16 +15,15 @@ const upload = multer(uploadConfig);
 routes.get("/status", (req, res) => {
     res.send({status:200});
   })
-  //TODO Subscribe controller
-
-  //TODO Get a subscription by Id
-  //TODO approve subscription
+  
   //TODO Approval controller
   //TODO Rejection controller
 
   //Subscription 
 routes.post('/Subscription/:eventId',SubscriptionController.create)
 routes.get('/Subscription/:subscription_id', SubscriptionController.getSubscriptionById)
+routes.post('/Subscription/:subscription_id/approval',ApprovalController.approve)
+routes.post('/Subscription/:subscription_id/rejection',RejectionController.reject)
 
   //Login
 routes.post('/login',LoginController.store)

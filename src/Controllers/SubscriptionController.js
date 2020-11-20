@@ -22,6 +22,10 @@ module.exports = {
         const { subscription_id } = req.params;
         try {
             const subscription = await Subscription.findById(subscription_id)
+            await subscription
+                .populate('event')
+                .populate('user', '-password')
+                .execPopulate();
             return res.json(subscription)
         } catch (error) {
             return res.status(400).json({message : "Subscription not found"})
