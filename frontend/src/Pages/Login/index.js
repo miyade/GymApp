@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import api from '../../Services/api';
-import {Alert, Button, Form, FormGroup, Label, Input, Container } from 'reactstrap';
+import {Alert, Button, Form, FormGroup, Input, Container } from 'reactstrap';
 import "./index.css";
 export default function Login({ history }){
     
@@ -13,11 +13,14 @@ export default function Login({ history }){
     const handleSubmit = async evt => {
       evt.preventDefault();
       const response = await api.post('/Login', { email, password })
-      const userId = response.data._id || false;
+      const user_id = response.data.user_id || false;
+      const user = response.data.user || false;
+
       try {
-        if(userId){
-            localStorage.setItem('user', userId)
-            history.push('/Dashboard')
+        if(user && user_id){
+            localStorage.setItem('user', user)
+            localStorage.setItem('user_id', user_id)
+            history.push('/')
         }
           else 
           {

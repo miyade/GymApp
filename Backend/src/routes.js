@@ -12,32 +12,32 @@ const uploadConfig = require('./config/upload');
 const routes = express.Router();
 const upload = multer(uploadConfig);
 
-routes.get("/status", (req, res) => {
-    res.send({status:200});
-  })
-  
-  //TODO Approval controller
-  //TODO Rejection controller
+const verifyToken = require('./config/verifyToken');
+routes.get('/status', (req, res) => {
+	res.send({ status: 200 })
+})
 
-  //Subscription 
-routes.post('/Subscription/:eventId',SubscriptionController.create)
-routes.get('/Subscription/:subscription_id', SubscriptionController.getSubscriptionById)
-routes.post('/Subscription/:subscription_id/approval',ApprovalController.approve)
-routes.post('/Subscription/:subscription_id/rejection',RejectionController.reject)
+//Registration
+routes.post('/registration/:eventId', SubscriptionController.create)
+routes.get('/registration/:registration_id', SubscriptionController.getSubscriptionById)
+routes.post('/registration/:registration_id/approvals', ApprovalController.approve)
+routes.post('/registration/:registration_id/rejections', RejectionController.reject)
 
-  //Login
-routes.post('/login',LoginController.store)
-  //User
-routes.post("/user/register", UserController.createUser)
-routes.get("/user/:userId",UserController.getUserById)
-  //Dashboard
-routes.get('/event/:eventId',DashboardController.getEventById)
-routes.get('/dashboard',DashboardController.getAllEvents)
-routes.get('/user/events',DashboardController.getEventsByUserId)
+//Login
+routes.post('/login', LoginController.store)
 
-routes.get('/dashboard/:sport',DashboardController.getEventsBySport)
-  //Event
-routes.post('/event',upload.single("thumbnail"), EventController.createEvent)
-routes.delete('/event/:eventId',EventController.deleteEvent)
+//Dashboard
+routes.get('/dashboard/:sport', verifyToken, DashboardController.getAllEvents)
+routes.get('/dashboard', verifyToken, DashboardController.getAllEvents)
+routes.get('/user/events', verifyToken, DashboardController.getEventsByUserId)
+routes.get('/event/:eventId', verifyToken, DashboardController.getEventById)
+
+//Events
+routes.post('/event',verifyToken, upload.single('thumbnail'), EventController.createEvent)
+routes.delete('/event/:eventId',verifyToken, EventController.delete)
+
+//User
+routes.post('/user/register', UserController.createUser)
+routes.get('/user/:userId', UserController.getUserById)
 
 module.exports = routes

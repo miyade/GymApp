@@ -6,6 +6,15 @@ const app = express();
 const path = require ('path');
 
 const PORT = process.env.PORT || 8000;
+// install jsonwebtoken --
+//Add token to project --
+// return token when login -- 
+// send token on request -- 
+// create function to protect routers
+//add function/middleware to routers
+// modify response to decode the token
+
+
 
 if(process.env.NODE_ENV !== 'production')
 {
