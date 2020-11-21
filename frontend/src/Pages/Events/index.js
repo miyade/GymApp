@@ -1,9 +1,10 @@
 import React, {useState, useMemo} from 'react';
 import api from '../../Services/api';
-import { Button, Form, FormGroup, Label, Input, Container } from 'reactstrap';
+import {Alert, Button, Form, FormGroup, Label, Input, Container } from 'reactstrap';
 import cameraIcon from '../../assets/camera.png';
 import "./index.css";
 export default function Events(){
+    const [errorMessage, setErrorMessage] = useState(false)
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState('')
@@ -23,20 +24,28 @@ export default function Events(){
         eventData.append("price",price)
         eventData.append("date",date)
 
-        if( title !== "" 
+        
+            try {
+                if( title !== "" 
          && description !== "" 
          && price !== "" 
          && sport !== "" 
          && date !== "" 
          && thumbnail !== null)
         {
-            try {
                 await api.post("/event", eventData, {headers: {user_id}})        
-                
+        } 
+        else {
+            setErrorMessage(true);
+            setTimeout(()=>{
+                setErrorMessage(false)
+            }, 5000)
+            console.log("missing required data")
+        }
             } catch (error) {
                console.log(error.message) 
             }
-        }
+        
 
         evt.preventDefault()
         return ""
@@ -80,6 +89,13 @@ export default function Events(){
 
 
             </Form>
+            {errorMessage ? (
+                
+                   <Alert className="event-validation" color="danger">
+        Missing Field(s)
+      </Alert>
+                
+            ) : ""}
         </Container>
     )
 }

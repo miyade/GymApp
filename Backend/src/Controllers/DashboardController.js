@@ -36,7 +36,7 @@ module.exports = {
 
     async getEventsBySport(req,res){
         const {sport} = req.params
-        const query = {sport} || {}
+        const query = sport ? {sport} : {}
         try {
             const events = await Event.find(query)
             if(events){
