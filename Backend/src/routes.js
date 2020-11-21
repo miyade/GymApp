@@ -33,6 +33,8 @@ routes.get("/user/:userId",UserController.getUserById)
   //Dashboard
 routes.get('/event/:eventId',DashboardController.getEventById)
 routes.get('/dashboard',DashboardController.getAllEvents)
+routes.get('/user/events',DashboardController.getEventsByUserId)
+
 routes.get('/dashboard/:sport',DashboardController.getEventsBySport)
   //Event
 routes.post('/event',upload.single("thumbnail"), EventController.createEvent)

@@ -8,6 +8,7 @@ ul.events-list {
     margin-top: 30px;
 }
 
+
 ul.events-list li {
     display: flex;
     flex-direction: column;
@@ -26,7 +27,16 @@ ul.events-list li strong{
     font-size: 24px;
     color: #444;
 }
+div.filter-panel{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 50px;
+}
 
+ul.events-list header div {
+    display: flex;
+    flex-direction: row-reverse;
+}
 @media (max-width:768px){
     ul.events-list{
         grid-template-columns: 1fr;

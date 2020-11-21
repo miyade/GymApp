@@ -47,7 +47,8 @@ export default function Events({ history }) {
                 setSuccess(true)
                 setTimeout(() => {
                     setSuccess(false)
-                }, 5000)
+                    history.push("/")
+                }, 2000)
             } else {
                 setError(true)
                 setTimeout(() => {
@@ -104,11 +105,11 @@ export default function Events({ history }) {
                     </FormGroup>
                 </div>
                 <FormGroup>
-                    <Button className="submit-btn">Submit</Button>
+                    <Button className="submit-btn" >Submit</Button>
                 </FormGroup>
                 <FormGroup>
                     <Button className="secondary-btn" onClick={() => history.push("/")}>
-                        Dashboard
+                        Cancel
                     </Button>
                 </FormGroup>
             </Form>
