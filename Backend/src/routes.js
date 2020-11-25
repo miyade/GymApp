@@ -18,7 +18,7 @@ routes.get('/status', (req, res) => {
 })
 
 //Registration
-routes.post('/registration/:eventId', SubscriptionController.create)
+routes.post('/registration/:eventId',verifyToken, SubscriptionController.create)
 routes.get('/registration/:registration_id', SubscriptionController.getSubscriptionById)
 routes.post('/registration/:registration_id/approvals', ApprovalController.approve)
 routes.post('/registration/:registration_id/rejections', RejectionController.reject)

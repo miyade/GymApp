@@ -1,21 +1,34 @@
 const Subscription = require('../models/Subscription');
+const jwt = require('jsonwebtoken');
 module.exports = {
-    async create(req,res){
-        const { user_id } = req.headers;
-        const { eventId } = req.params;
-        const { date } = req.body;
+     create(req,res){
+        jwt.verify(req.token, 'secret', async(err, authData)=>{
+            if (err) {
+                res.sendStatus(401);
+            } else {
+                
+                const user_id = authData.user._id;
+                const { eventId } = req.params;
 
-        const subscription = await Subscription.create({
-            user:user_id,
-            event:eventId,
-            date
+        
+                const subscription = await Subscription.create({
+                    user:user_id,
+                    event:eventId,
+                    
+                })
+        
+                await subscription
+                .populate('event')
+                .populate('user', '-password')
+                .execPopulate();
+
+                const ownerSocket = req.connectedUsers[subscription.event.user]
+                if(ownerSocket){
+                    req.io.to(ownerSocket).emit('subscription_request',subscription)
+                }
+                return res.json(subscription)
+            }
         })
-
-        await subscription
-        .populate('event')
-        .populate('user', '-password')
-        .execPopulate();
-        return res.json(subscription)
 
     },
     async getSubscriptionById(req,res){
